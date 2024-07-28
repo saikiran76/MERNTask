@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useFetchStat from '../hooks/useFetchStat';
 import MonthDropdown from './MonthDropdown';
 
-const Statistics = () => {
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const { data, loading, error } = useFetchStat('http://localhost:4000/api/statistics', { month: selectedMonth });
+const Statistics = ({ selectedMonth }) => {
+  const { data, loading, error } = useFetchStat(selectedMonth);
 
   return (
-    <div className="statistics m-3 p-3 border-gray-400 border-b-[1.5px] rounded">
-      <MonthDropdown selectedMonth={selectedMonth} onChange={setSelectedMonth} />
+    <div className="statistics m-3 p-7 shadow-md border-gray-400 border-b-[1.5px] rounded">
+      <MonthDropdown selectedMonth={selectedMonth} onChange={(month) => setSelectedMonth(month)} />
       {loading && <p>Loading statistics...</p>}
-      {error && <p>Error loading statistics: {error}</p>}
+      {error && <p>Error loading statistics: {error.message}</p>}
       {data && (
         <div>
-          <p>Total Sale Amount: ${data.totalSaleAmount}</p>
-          <p>Total Sold Items: {data.soldItems}</p>
-          <p>Totala Not Sold Items: {data.notSoldItems}</p>
+          <p className='mt-1 flex justify-between'>Total Sale Amount:    <span className='font-semibold ml-5'>{data.totalSaleAmount}</span></p>
+          <p className='mt-1 flex justify-between'>Total Sold Items:     <span className='font-semibold ml-5'>{data.soldItems}</span></p>
+          <p className='mt-1 flex justify-between'>Total Not Sold Items: <span className='font-semibold ml-5'>{data.notSoldItems}</span></p>
         </div>
       )}
     </div>

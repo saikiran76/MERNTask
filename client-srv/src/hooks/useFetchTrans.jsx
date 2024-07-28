@@ -5,20 +5,20 @@ const useFetchTrans = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [month, setMonth] = useState('March'); // Default month
-  const [page, setPage] = useState(1); // Default page
-  const [searchTerm, setSearchTerm] = useState(''); // Default search term
+  const [month, setMonth] = useState('March');
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchTransactions = async () => {
       setLoading(true);
-      setError(null); // Reset error state before fetching
+      setError(null);
 
       try {
         const response = await axios.get('http://localhost:4000/api/transactions', {
           params: { month, page, search: searchTerm },
         });
-        setTransactions(response.data.products || []); // Fallback to empty array
+        setTransactions(response.data.products || []);
       } catch (err) {
         setError(err.message || 'An error occurred while fetching transactions.');
       } finally {
@@ -26,12 +26,12 @@ const useFetchTrans = () => {
       }
     };
 
-    if (month) { // Ensure month is provided before fetching
+    if (month) {
       fetchTransactions();
     }
   }, [month, page, searchTerm]);
 
-  return { transactions, loading, error, setMonth, setPage, setSearchTerm, page }; // Return page
+  return { transactions, loading, error, setMonth, setPage, setSearchTerm, page };
 };
 
 export default useFetchTrans;

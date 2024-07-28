@@ -6,7 +6,7 @@ const monthOptions = [
 ];
 
 const MonthDropdown = ({ selectedMonth, onChange }) => (
-  <select value={selectedMonth} onChange={(e) => onChange(e.target.value)}>
+  <select className='border-gray-400 border-2 p-1 mb-2 rounded' value={selectedMonth} onChange={(e) => onChange(e.target.value)}>
     <option value="">Select a month</option>
     {monthOptions.map((month, index) => (
       <option key={index} value={month.toLowerCase()}>{month}</option>

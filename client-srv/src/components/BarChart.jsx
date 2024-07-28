@@ -1,6 +1,5 @@
-import React, { useEffect, useRef} from 'react';
+import React from 'react';
 import { Bar } from 'react-chartjs-2';
-// import useFetchStat from '../hooks/useFetchStat';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,27 +19,10 @@ ChartJS.register(
   Legend
 );
 
-const BarChart = ({ data, options }) => {
-  const chartRef = useRef(null);
-
-  useEffect(() => {
-    if (chartRef.current) {
-      chartRef.current.destroy();
-    }
-    chartRef.current = new ChartJS(document.getElementById('chart-canvas'), {
-      type: 'bar',
-      data,
-      options,
-    });
-
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
-  }, [data, options]);
-
-  return <canvas id="chart-canvas"></canvas>;
-};
+const BarChart = ({ data, options }) => (
+  <div className='bg-white shadow-md rounded-lg p-5 border-[1.5px]'>
+  <Bar data={data} options={options} />
+  </div>
+);
 
 export default BarChart;
