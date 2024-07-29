@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useFetchTrans from './hooks/useFetchTrans'; // Adjust the import path as necessary
+import useFetchTrans from './hooks/useFetchTrans'; 
 import Table from './components/Table';
 import Statistics from './components/Statistics';
 import BarChart from './components/BarChart';
@@ -10,8 +10,27 @@ function App() {
   const [selectedMonth, setSelectedMonth] = useState('January');
   const { data, error: statError } = useFetchStat(selectedMonth);
 
+  const barData = data ? {
+    labels: ['0-100', '101-200', '201-300', '301-400', '401-500', '501-600', '601-700', '701-800', '801-900', '901 above'],
+    datasets: [
+      {
+        label: 'Statistics',
+        data: [
+          data.totalSaleAmount, 
+          data.soldItems,
+          data.notSoldItems
+        ],
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderWidth: 1,
+      },
+    ],
+  } : null;
+
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
+    setMonth(e.target.value); 
+    setPage(1); 
   };
 
   return (
@@ -44,22 +63,11 @@ function App() {
 
       {loading && <p>Loading transactions...</p>}
       <Table transactions={transactions} />
-      <div className='flex flex-wrap mt-10 gap-5'>
+      <div className='flex flex-wrap mt-10 gap-5 justify-center'>
         <Statistics selectedMonth={selectedMonth} />
-        {data && (
+        {barData && (
           <BarChart
-            data={{
-              labels: data.labels,
-              datasets: [
-                {
-                  label: 'Statistics',
-                  data: data.values,
-                  backgroundColor: 'rgba(75,192,192,0.4)',
-                  borderColor: 'rgba(75,192,192,1)',
-                  borderWidth: 1,
-                },
-              ],
-            }}
+            data={barData}
             options={{ responsive: true }}
           />
         )}
