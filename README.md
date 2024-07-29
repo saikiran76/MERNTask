@@ -17,7 +17,6 @@
 ## Features
 - Products Transactions table
    - Search functionality (Debounced)
-   - Performance of Various Market Sectors (base on percent change)
    - Records rendered can be exported as csv file
 - Statistics card
   - Barchart 
